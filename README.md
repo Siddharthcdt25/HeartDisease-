@@ -1,4 +1,4 @@
-# HeartDisease-# 🫀 Heart Disease Analysis
+# Heart Disease Analysis
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange?style=flat-square&logo=jupyter)
