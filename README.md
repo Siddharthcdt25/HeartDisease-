@@ -1,249 +1,155 @@
-# Heart Disease Analysis
+# ❤️ Heart Disease Risk Prediction
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python)
-![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange?style=flat-square&logo=jupyter)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-red?style=flat-square&logo=scikit-learn)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=flat-square&logo=pandas)
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+**A machine learning web application that predicts heart disease risk using clinical health metrics, built with scikit-learn and deployed with Streamlit.**
 
-> **A comprehensive machine learning project to analyze, predict, and understand the clinical risk factors associated with heart disease using a combined multi-source patient dataset of 918 records.**
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://cardio-risk-ai-siddharth.streamlit.app)
+[![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.7.2-F7931E?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+🔗 **[Try the Live App →](https://cardio-risk-ai-siddharth.streamlit.app)**
 
 ---
 
-## 📌 Table of Contents
-
+## 📋 Table of Contents
 - [Overview](#-overview)
+- [Problem Statement](#-problem-statement)
 - [Dataset](#-dataset)
-- [Project Structure](#-project-structure)
-- [Workflow](#-workflow)
-- [EDA Highlights](#-eda-highlights)
-- [Feature Engineering](#-feature-engineering)
+- [Project Workflow](#-project-workflow)
+- [Model Performance](#-model-performance)
 - [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Results](#-results)
-- [Future Work](#-future-work)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Project Structure](#-project-structure)
+- [Installation & Usage](#-installation--usage)
+- [Key Learnings](#-key-learnings)
+- [Future Improvements](#-future-improvements)
+- [Author](#-author)
 
 ---
 
-## 🔍 Overview
+## 🩺 Overview
 
-Cardiovascular disease is the **#1 cause of death globally**, responsible for nearly 17.9 million deaths per year. Early detection of heart disease risk using routine clinical data can be life-saving. This project leverages machine learning to:
+Cardiovascular disease is the leading cause of death globally. Early risk assessment can help individuals seek timely medical intervention. This project builds an end-to-end machine learning pipeline — from raw clinical data to a deployed, interactive web application — that predicts a patient's risk of heart disease based on 11 clinical features.
 
-- Perform in-depth **Exploratory Data Analysis (EDA)** across 11 clinical features
-- Engineer meaningful features to boost predictive signal
-- Build and evaluate classification models for heart disease prediction
-- Derive actionable clinical insights from real patient data
+The app takes user-provided health metrics (age, blood pressure, cholesterol, ECG results, etc.) and returns an instant risk prediction, along with actionable health recommendations.
 
----
+## 🎯 Problem Statement
+
+Given a set of clinical measurements for a patient, predict whether they are at **high risk** or **low risk** of heart disease — framed as a binary classification problem.
 
 ## 📊 Dataset
 
-| Property | Details |
-|----------|---------|
-| **Source** | [Kaggle — Heart Failure Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction) |
-| **Origin** | Combined from 5 public heart disease databases (Cleveland, Hungarian, Switzerland, Long Beach VA, Stalog) |
-| **Total Records** | **918 patients** |
-| **Features** | **11 clinical attributes** |
-| **Target** | `HeartDisease` — Binary: `1` (Disease Present) / `0` (No Disease) |
-| **Class Distribution** | 55.3% Positive (508) / 44.7% Negative (410) — mildly imbalanced |
-| **Missing Values** | No explicit nulls, but **172 zero-valued Cholesterol** entries treated as missing |
+- **Source:** Clinical heart disease dataset (918 patient records)
+- **Features (11):** Age, Sex, Chest Pain Type, Resting Blood Pressure, Cholesterol, Fasting Blood Sugar, Resting ECG, Max Heart Rate, Exercise-Induced Angina, Oldpeak (ST Depression), ST Slope
+- **Target:** Presence (1) or absence (0) of heart disease
 
-### 📋 Feature Reference
+## 🔄 Project Workflow
 
-| Feature | Type | Description | Unique Values / Range |
-|---------|------|-------------|----------------------|
-| `Age` | Numerical | Patient age in years | 28 – 77 |
-| `Sex` | Categorical | Biological sex | M (725), F (193) |
-| `ChestPainType` | Categorical | Type of chest pain | ASY, NAP, ATA, TA |
-| `RestingBP` | Numerical | Resting blood pressure (mm Hg) | 0 – 200 *(1 zero = anomaly)* |
-| `Cholesterol` | Numerical | Serum cholesterol (mg/dl) | 0 – 603 *(172 zeros = missing)* |
-| `FastingBS` | Binary | Fasting blood sugar > 120 mg/dl | 1 = True, 0 = False |
-| `RestingECG` | Categorical | Resting ECG results | Normal, ST, LVH |
-| `MaxHR` | Numerical | Maximum heart rate achieved | 60 – 202 |
-| `ExerciseAngina` | Categorical | Exercise-induced angina | Y / N |
-| `Oldpeak` | Numerical | ST depression (exercise vs rest) | -2.6 – 6.2 |
-| `ST_Slope` | Categorical | Slope of peak exercise ST segment | Up, Flat, Down |
-| `HeartDisease` | **Target** | Presence of heart disease | 1 / 0 |
+```
+┌─────────────────────┐     ┌──────────────────────────┐     ┌─────────────────┐
+│  01_EDA & Feature    │ --> │  02_Preprocessing &       │ --> │  Streamlit App   │
+│  Engineering         │     │  Model Training            │     │  (app.py)        │
+│  (.ipynb)            │     │  (.ipynb)                  │     │                  │
+└─────────────────────┘     └──────────────────────────┘     └─────────────────┘
+  • Data cleaning              • Train/test split              • User input form
+  • Handling zero-values       • Model training (KNN)           • Real-time prediction
+  • One-hot encoding           • Model evaluation                • Risk interpretation
+  • Feature scaling            • Export .pkl artifacts
+```
 
----
+**Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
+
+## 📈 Model Performance
+
+> *Replace the placeholders below with your actual evaluation metrics from `02_Preprocessing_and_Trainning.ipynb`.*
+
+| Metric | Score |
+|--------|-------|
+| Accuracy | `XX%` |
+| Precision | `XX%` |
+| Recall | `XX%` |
+| F1-Score | `XX%` |
+
+**Model:** K-Nearest Neighbors (KNN) Classifier
+**Preprocessing:** StandardScaler normalization + one-hot encoding of categorical features
+
+## 🛠 Tech Stack
+
+| Category | Tools |
+|----------|-------|
+| **Language** | Python 3.11 |
+| **ML/Data** | scikit-learn, pandas, numpy |
+| **Model Persistence** | joblib |
+| **Frontend** | Streamlit |
+| **Notebooks** | Jupyter |
+| **Deployment** | Streamlit Community Cloud |
+| **Version Control** | Git & GitHub |
 
 ## 📁 Project Structure
 
 ```
-heart-disease-analysis/
+heart-disease-prediction/
 │
-├── 📂 data/
-│   ├── raw/
-│   │   └── heart.csv                      # Original dataset (918 × 12)
-│   └── processed/
-│       └── heart_engineered.csv           # After cleaning & feature engineering
-│
-├── 📂 notebooks/
-│   ├── 01_EDA.ipynb                       # Exploratory Data Analysis
-│   ├── 02_Feature_Engineering.ipynb       # Feature transformation & creation
-│   └── 03_Modeling.ipynb                  # Model training & evaluation (upcoming)
-│
-├── 📂 src/
-│   ├── data_preprocessing.py              # Data cleaning utilities
-│   ├── feature_engineering.py             # Feature engineering pipeline
-│   └── utils.py                           # Helper functions
-│
-├── 📂 reports/
-│   └── figures/                           # EDA plots and visualizations
-│
-├── requirements.txt
-├── README.md
-└── LICENSE
+├── 01_EDAandFeature_Engg.ipynb          # Exploratory data analysis & feature engineering
+├── 02_Preprocessing_and_Trainning.ipynb  # Preprocessing, model training & evaluation
+├── app.py                                # Streamlit web application
+├── heart.csv                             # Raw dataset
+├── KNN_heart.pkl                         # Trained KNN model
+├── scaler.pkl                            # Fitted StandardScaler
+├── columns.pkl                           # Expected feature columns (encoding reference)
+├── requirements.txt                      # Python dependencies
+├── .python-version                       # Pinned Python version for deployment
+└── README.md                             # Project documentation
 ```
 
----
+## 🚀 Installation & Usage
 
-## 🔄 Workflow
-
-```
-Raw Data  →  Data Cleaning  →  EDA  →  Feature Engineering  →  Modeling  →  Evaluation
-   ✅              ✅           ✅            ✅                    🔄             🔄
-```
-
-> ✅ Completed &nbsp;&nbsp;&nbsp; 🔄 In Progress
-
----
-
-## 📈 EDA Highlights
-
-Key insights uncovered from the **918-patient dataset**:
-
-- **Class Balance**: Dataset is mildly imbalanced — 55.3% positive vs 44.7% negative, manageable without heavy resampling
-- **Gender Skew**: The dataset is male-dominant (79% male), which may affect model generalization across genders
-- **Chest Pain Type**: `ASY` (Asymptomatic) chest pain accounts for 54% of cases and has the strongest association with heart disease
-- **Cholesterol Anomaly**: 172 records (18.7%) have `Cholesterol = 0` — physiologically invalid, treated as missing during preprocessing
-- **RestingBP Anomaly**: 1 record has `RestingBP = 0`, flagged and imputed
-- **Age Range**: Patients span ages 28–77 (mean ≈ 53.5), with higher disease prevalence in the 50–65 bracket
-- **ST_Slope**: `Flat` slope (460 patients) showed the highest correlation with positive disease outcomes
-- **MaxHR**: Patients with heart disease consistently achieved lower maximum heart rates
-- **Exercise Angina**: 40.4% of patients exhibited exercise-induced angina (`Y`), a strong risk indicator
-- **Oldpeak**: Higher ST depression values positively correlated with heart disease presence
-
-> 📓 Full analysis available in [`notebooks/01_EDA.ipynb`](notebooks/01_EDA.ipynb)
-
----
-
-## ⚙️ Feature Engineering
-
-The following transformations were applied to improve model signal:
-
-- **Missing Value Imputation**: Cholesterol zeros (172 records) replaced with median; single RestingBP zero treated similarly
-- **Label Encoding**: Binary categoricals (`Sex`, `ExerciseAngina`) encoded as 0/1
-- **One-Hot Encoding**: Multi-class categoricals — `ChestPainType` (4 classes), `RestingECG` (3 classes), `ST_Slope` (3 classes) — encoded with `drop_first=True`
-- **Age Binning**: Age grouped into clinical brackets — `Young (<40)`, `Middle-Aged (40–55)`, `Senior (55–65)`, `Elderly (>65)`
-- **Interaction Features**:
-  - `Age × MaxHR` — age-adjusted cardiovascular effort index
-  - `Cholesterol × RestingBP` — combined metabolic-pressure risk score
-  - `Oldpeak × ST_Slope` — combined ST-segment risk signal
-- **Skewness Treatment**: Log transformation applied to `Oldpeak` to reduce right skew
-- **Feature Scaling**: StandardScaler applied to continuous features (`Age`, `RestingBP`, `Cholesterol`, `MaxHR`, `Oldpeak`) for distance-based models
-
-> 📓 Full pipeline in [`notebooks/02_Feature_Engineering.ipynb`](notebooks/02_Feature_Engineering.ipynb)
-
----
-
-## 🛠️ Tech Stack
-
-| Tool | Purpose |
-|------|---------|
-| `Python 3.9+` | Core programming language |
-| `Pandas` | Data manipulation & analysis |
-| `NumPy` | Numerical computations |
-| `Matplotlib` & `Seaborn` | Data visualization |
-| `Scikit-learn` | ML modeling, preprocessing & evaluation |
-| `Jupyter Notebook` | Interactive development environment |
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-```bash
-Python 3.9+
-pip
-```
-
-### Installation
+### Run locally
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/heart-disease-analysis.git
-cd heart-disease-analysis
-
-# Create a virtual environment
-python -m venv venv
-source venv/bin/activate         # On Windows: venv\Scripts\activate
+git clone https://github.com/Siddharthcdt25/HeartDisease-.git
+cd HeartDisease-
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Run the app
+streamlit run app.py
 ```
 
-### Dataset Setup
+The app will open at `http://localhost:8501`.
 
-```bash
-# Place your dataset in the raw data folder
-cp heart.csv data/raw/heart.csv
-```
+### Use the live app
 
-### Run Notebooks
+No installation needed — try it directly:
+👉 **[cardio-risk-ai-siddharth.streamlit.app](https://cardio-risk-ai-siddharth.streamlit.app)**
 
-```bash
-# Launch Jupyter
-jupyter notebook
+## 💡 Key Learnings
 
-# Run notebooks in order:
-# 1. notebooks/01_EDA.ipynb
-# 2. notebooks/02_Feature_Engineering.ipynb
-# 3. notebooks/03_Modeling.ipynb  (upcoming)
-```
+Building and deploying this project involved solving some real-world engineering challenges:
+
+- **Environment reproducibility matters:** Model artifacts pickled with one `scikit-learn` version failed to load under a different version on the deployment server — solved by pinning exact package versions in `requirements.txt`.
+- **Platform fit matters:** Initially attempted deployment on Vercel, which doesn't support Streamlit's persistent WebSocket architecture — migrated to Streamlit Community Cloud, purpose-built for this.
+- **Python version compatibility:** A newly-released Python version caused native library (numpy/scikit-learn) instability on the server — resolved by explicitly selecting a stable Python version at deployment time.
+
+## 🔮 Future Improvements
+
+- [ ] Add model comparison (Logistic Regression, Random Forest, XGBoost) with performance benchmarking
+- [ ] Build a REST API (FastAPI) version for programmatic access
+- [ ] Add SHAP/feature importance visualizations for prediction explainability
+- [ ] Add prediction history logging
+- [ ] Write unit tests for the preprocessing pipeline
+- [ ] Add CI/CD pipeline with GitHub Actions
+
+## 👤 Author
+
+**Siddharth**
+🔗 [GitHub](https://github.com/Siddharthcdt25) · 🌐 [Live Project](https://cardio-risk-ai-siddharth.streamlit.app)
 
 ---
 
-## 📉 Results
+⭐ If you found this project interesting, consider giving it a star on GitHub!
 
-> 🔄 *Model training is currently in progress. Results will be updated upon completion.*
+## ⚠️ Disclaimer
 
-| Model | Accuracy | Precision | Recall | F1-Score | AUC-ROC |
-|-------|----------|-----------|--------|----------|---------|
-| Logistic Regression | — | — | — | — | — |
-| Random Forest | — | — | — | — | — |
-| XGBoost | — | — | — | — | — |
-| SVM | — | — | — | — | — |
-| K-Nearest Neighbors | — | — | — | — | — |
-
----
-
-## 🔮 Future Work
-
-- [ ] Complete model training, tuning & cross-validation
-- [ ] Address class imbalance with SMOTE if needed post-modeling
-- [ ] Add SHAP values for model explainability
-- [ ] Investigate performance gap across gender subgroups (dataset is 79% male)
-- [ ] Build an interactive prediction dashboard using Streamlit
-- [ ] Deploy model as a REST API (FastAPI / Flask)
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/improvement`)
-3. Commit your changes (`git commit -m 'Add some improvement'`)
-4. Push to the branch (`git push origin feature/improvement`)
-5. Open a Pull Request
-
-
-<p align="center">
-  Made with ❤️ and lots of ☕ | If you found this useful, give it a ⭐!
-</p>
+This tool is built for educational and demonstration purposes only. It is **not** a certified medical diagnostic tool and should not be used as a substitute for professional medical advice, diagnosis, or treatment.
