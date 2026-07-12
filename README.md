@@ -2,12 +2,12 @@
 
 **A machine learning web application that predicts heart disease risk using clinical health metrics, built with scikit-learn and deployed with Streamlit.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://cardio-risk-ai-siddharth.streamlit.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://cardio-risk-ai-app.streamlit.app)
 [![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.7.2-F7931E?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-🔗 **[Try the Live App →](https://cardio-risk-ai-siddharth.streamlit.app)**
+🔗 **[Try the Live App →](https://cardio-risk-ai-app.streamlit.app)**
 
 ---
 
@@ -43,18 +43,15 @@ Given a set of clinical measurements for a patient, predict whether they are at 
 - **Target:** Presence (1) or absence (0) of heart disease
 
 ## 🔄 Project Workflow
-
-```
 ┌─────────────────────┐     ┌──────────────────────────┐     ┌─────────────────┐
 │  01_EDA & Feature    │ --> │  02_Preprocessing &       │ --> │  Streamlit App   │
 │  Engineering         │     │  Model Training            │     │  (app.py)        │
 │  (.ipynb)            │     │  (.ipynb)                  │     │                  │
 └─────────────────────┘     └──────────────────────────┘     └─────────────────┘
-  • Data cleaning              • Train/test split              • User input form
-  • Handling zero-values       • Model training (KNN)           • Real-time prediction
-  • One-hot encoding           • Model evaluation                • Risk interpretation
-  • Feature scaling            • Export .pkl artifacts
-```
+• Data cleaning              • Train/test split              • User input form
+• Handling zero-values       • Model training (KNN)           • Real-time prediction
+• One-hot encoding           • Model evaluation                • Risk interpretation
+• Feature scaling            • Export .pkl artifacts
 
 **Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
 
@@ -86,7 +83,6 @@ Given a set of clinical measurements for a patient, predict whether they are at 
 
 ## 📁 Project Structure
 
-```
 heart-disease-prediction/
 │
 ├── 01_EDAandFeature_Engg.ipynb          # Exploratory data analysis & feature engineering
@@ -99,7 +95,6 @@ heart-disease-prediction/
 ├── requirements.txt                      # Python dependencies
 ├── .python-version                       # Pinned Python version for deployment
 └── README.md                             # Project documentation
-```
 
 ## 🚀 Installation & Usage
 
@@ -122,7 +117,7 @@ The app will open at `http://localhost:8501`.
 ### Use the live app
 
 No installation needed — try it directly:
-👉 **[cardio-risk-ai-siddharth.streamlit.app](https://cardio-risk-ai-siddharth.streamlit.app)**
+👉 **[cardio-risk-ai-app.streamlit.app](https://cardio-risk-ai-app.streamlit.app)**
 
 ## 💡 Key Learnings
 
@@ -144,7 +139,7 @@ Building and deploying this project involved solving some real-world engineering
 ## 👤 Author
 
 **Siddharth**
-🔗 [GitHub](https://github.com/Siddharthcdt25) · 🌐 [Live Project](https://cardio-risk-ai-siddharth.streamlit.app)
+🔗 [GitHub](https://github.com/Siddharthcdt25) · 🌐 [Live Project](https://cardio-risk-ai-app.streamlit.app)
 
 ---
 
