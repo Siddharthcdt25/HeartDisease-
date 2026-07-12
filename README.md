@@ -43,15 +43,47 @@ Given a set of clinical measurements for a patient, predict whether they are at 
 - **Target:** Presence (1) or absence (0) of heart disease
 
 ## 🔄 Project Workflow
-┌─────────────────────┐     ┌──────────────────────────┐     ┌─────────────────┐
-│  01_EDA & Feature    │ --> │  02_Preprocessing &       │ --> │  Streamlit App   │
-│  Engineering         │     │  Model Training            │     │  (app.py)        │
-│  (.ipynb)            │     │  (.ipynb)                  │     │                  │
-└─────────────────────┘     └──────────────────────────┘     └─────────────────┘
-• Data cleaning              • Train/test split              • User input form
-• Handling zero-values       • Model training (KNN)           • Real-time prediction
-• One-hot encoding           • Model evaluation                • Risk interpretation
-• Feature scaling            • Export .pkl artifacts
+
+```mermaid
+flowchart TD
+    A[📊 heart.csv<br/>Raw Dataset] --> B
+
+    subgraph NB1["01_EDAandFeature_Engg.ipynb"]
+        B[Exploratory Data Analysis] --> C[Handle Invalid/Zero Values<br/>Cholesterol, RestingBP]
+        C --> D[One-Hot Encoding<br/>Categorical Features]
+        D --> E[Feature Scaling<br/>StandardScaler]
+    end
+
+    E --> F[(heart_processed.csv)]
+    E --> G[(scaler.pkl)]
+
+    F --> H
+
+    subgraph NB2["02_Preprocessing_and_Trainning.ipynb"]
+        H[Train/Test Split] --> I[Train KNN Classifier]
+        I --> J[Model Evaluation<br/>Accuracy, Precision, Recall, F1]
+    end
+
+    J --> K[(KNN_heart.pkl)]
+    J --> L[(columns.pkl)]
+
+    G --> M
+    K --> M
+    L --> M
+
+    subgraph APP["app.py — Streamlit Web App"]
+        M[Load Model + Scaler + Columns] --> N[Collect User Input<br/>via UI Form]
+        N --> O[Encode & Scale Input]
+        O --> P[Predict Risk]
+        P --> Q{Risk Level}
+        Q -->|High Risk| R[⚠️ Show Warning +<br/>Recommendations]
+        Q -->|Low Risk| S[✅ Show Low Risk +<br/>Recommendations]
+    end
+
+    Q --> T[🚀 Deployed on<br/>Streamlit Community Cloud]
+```
+
+**Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
 
 **Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
 
