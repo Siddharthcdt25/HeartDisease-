@@ -85,8 +85,6 @@ flowchart TD
 
 **Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
 
-**Artifacts passed between stages:** `heart_processed.csv`, `scaler.pkl`, `KNN_heart.pkl`, `columns.pkl`
-
 ## 📈 Model Performance
 
 > *Replace the placeholders below with your actual evaluation metrics from `02_Preprocessing_and_Trainning.ipynb`.*
